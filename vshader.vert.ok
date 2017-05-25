@@ -1,0 +1,14 @@
+attribute vec4 qt_Vertex;
+attribute vec4 qt_MultiTexCoord0;
+
+uniform mat4 qt_ModelViewProjectionMatrix;
+varying vec4 qt_TexCoord0;
+
+varying vec4 currentVertex;
+
+void main(void)
+{
+    currentVertex = qt_Vertex;
+    gl_Position = qt_ModelViewProjectionMatrix * qt_Vertex;
+    qt_TexCoord0 = qt_MultiTexCoord0;
+}

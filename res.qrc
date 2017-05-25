@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>grid.fw.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,14 @@
+uniform sampler2D qt_Texture0;
+varying vec4 qt_TexCoord0;
+
+uniform vec4 pVertex;
+varying vec4 currentVertex;
+
+void main(void)
+{
+    gl_FragColor = texture2D(qt_Texture0, qt_TexCoord0.st);
+    if( currentVertex.x < pVertex.x && currentVertex.z < pVertex.z )
+    {
+        gl_FragColor *= vec4(1,0,0,.5);
+    }
+}
