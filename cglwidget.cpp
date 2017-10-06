@@ -141,21 +141,21 @@ void cGLWidget::initShaders()
     setlocale(LC_NUMERIC, "C");
 
     // Compiling vertex shader
-    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, "d:/projects/fouriergl/vshader.vert"))
+    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.vert"))
     {
         qd << "error compiling vertex shader";
         close();
     }
 
     // Compiling geometry shader
-    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Geometry, "d:/projects/fouriergl/gshader.geom"))
+    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Geometry, ":/gshader.geom"))
     {
         qd << "error compiling vertex shader";
         close();
     }
 
     // Compiling fragment shader
-    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, "d:/projects/fouriergl/fshader.frag"))
+    if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fshader.frag"))
     {
         qd << "error compiling fragment shader";
         close();
@@ -174,12 +174,12 @@ void cGLWidget::initShaders()
 
     mProgram->release();
 
-    if(!mPrgOutline->addShaderFromSourceFile(QOpenGLShader::Vertex, "d:/projects/fouriergl/outline.vert"))
+    if(!mPrgOutline->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/outline.vert"))
     {
         qd << "error compiling vertex shader";
         close();
     }
-    if (!mPrgOutline->addShaderFromSourceFile(QOpenGLShader::Fragment, "d:/projects/fouriergl/outline.frag"))
+    if (!mPrgOutline->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/outline.frag"))
     {
         qd << "error compiling fragment shader";
         close();
@@ -321,6 +321,8 @@ void cGLWidget::backView()
 
 void cGLWidget::resizeGL(int w, int h)
 {
+    Q_UNUSED(w)
+    Q_UNUSED(h)
     updateProjection(mPerspectiveProjection);
 }
 
