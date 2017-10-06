@@ -1,8 +1,6 @@
-g# FourierGL
-Fourier
+# FourierGL
 
 Fourier Transform Demo App
-
 
 Check it in action:
 
