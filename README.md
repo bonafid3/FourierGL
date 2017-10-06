@@ -1,4 +1,4 @@
-# FourierGL
+g# FourierGL
 Fourier
 
 Fourier Transform Demo App
@@ -20,6 +20,6 @@ Please follow the instructions how to setup Qt on your computer.
 
 When Qt is ready, launch Qt Creator and open the .pro file from your computer and compile the source.
 
-Use W,S,A,D keys for camera movement and left mouse draf for changing camera angle. 
+Use W,S,A,D keys for camera movement and left mouse drag for changing camera angle. 
 
 Have fun!
