@@ -9,7 +9,8 @@ QT       += core gui opengl
 TARGET = fouriergl
 TEMPLATE = app
 
-LIBS += opengl32.lib
+win32: LIBS += opengl32.lib
+linux: LIBS += -L /usr/lib/ -lQtOpenGL
 
 SOURCES += main.cpp\
         dialog.cpp \
@@ -35,10 +36,3 @@ DISTFILES += \
     gshader.geom \
     outline.vert \
     outline.frag
-
-
-
-
-
-
-
