@@ -1,8 +1,6 @@
 # FourierGL
-Fourier
 
 Fourier Transform Demo App
-
 
 Check it in action:
 
@@ -19,5 +17,7 @@ You can download the Qt framework from here: http://download.qt.io/official_rele
 Please follow the instructions how to setup Qt on your computer.
 
 When Qt is ready, launch Qt Creator and open the .pro file from your computer and compile the source.
+
+Use W,S,A,D keys for camera movement and left mouse drag for changing camera angle. 
 
 Have fun!
