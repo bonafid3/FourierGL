@@ -15,15 +15,6 @@ cGLWidget::cGLWidget(QWidget *parent) :
     mSamplingMode(true)
 {
     setMouseTracking(true);
-
-    QSurfaceFormat format;
-
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setVersion(4, 0);
-    format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
-
-    format.setSamples(4);
-    setFormat(format);
 }
 
 float cGLWidget::scale(float from_min, float from_max, float to_min, float to_max, float val)
@@ -91,7 +82,7 @@ void cGLWidget::initializeGL()
 
     glClearColor(0.5, 0.8, 0.5, 0.5);
 
-    qd << "Supported shading language version"  << QString((char*)glGetString(GL_VENDOR))<< QString((char*)glGetString(GL_RENDERER)) << QString((char*)glGetString(GL_VERSION)) << QString((char*)glGetString(GL_EXTENSIONS)) << QString((char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+    qd << "Supported shading language version"  << QString((char*)glGetString(GL_VENDOR))<< QString((char*)glGetString(GL_RENDERER)) << QString((char*)glGetString(GL_VERSION)) /*<< QString((char*)glGetString(GL_EXTENSIONS))*/ << QString((char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     qDebug() << "Initializing shaders...";
     initShaders();
@@ -108,11 +99,14 @@ void cGLWidget::initializeGL()
 
     glEnable(GL_MULTISAMPLE); // qt surface format sets the number of sampling
 
-    //glClearDepth(1.0f); // Depth Buffer Setup
-    //glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
+    glClearDepth(1.0f); // Depth Buffer Setup
+    glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    qd << mVAO.create();
+    QOpenGLVertexArrayObject::Binder vaoBinder(&mVAO);
 
     glActiveTexture(GL_TEXTURE0);
 
@@ -120,14 +114,15 @@ void cGLWidget::initializeGL()
 
     installEventFilter(this);
 
-
     QVector<GLfloat> data;
 
     add(data, QVector3D(25,25,-0.1), QVector2D(1,0));
     add(data, QVector3D(-25,25,-0.1), QVector2D(0,0));
     add(data, QVector3D(-25,-25,-0.1), QVector2D(0,1));
-    add(data, QVector3D(25,-25,-0.1), QVector2D(1,1));
 
+    add(data, QVector3D(-25,-25,-0.1), QVector2D(0,1));
+    add(data, QVector3D(25,-25,-0.1), QVector2D(1,1));
+    add(data, QVector3D(25,25,-0.1), QVector2D(1,0));
 
     createPlaneVBO(data);
 
@@ -246,7 +241,6 @@ void cGLWidget::createPlaneVBO(QVector<GLfloat> &buffer)
     mPlaneVBO.allocate(buffer.constData(), buffer.size() * sizeof(GLfloat));
 
     mPlaneVBO.release();
-
 }
 
 void cGLWidget::createVBO(QVector<GLfloat> &buffer)
@@ -359,8 +353,10 @@ void cGLWidget::updateProjection(bool perspectiveProjection)
 void cGLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
-    glShadeModel(GL_FLAT);
+    QOpenGLVertexArrayObject::Binder vaoBinder(&mVAO);
 
     QOpenGLFunctions *f=0;
     QMatrix4x4 transition;
@@ -383,9 +379,10 @@ void cGLWidget::paintGL()
         mPrgOutline->setUniformValue("qt_projectionMatrix", mProjectionMatrix);
         f = QOpenGLContext::currentContext()->functions();
         f->glEnableVertexAttribArray(0);
+        f->glEnableVertexAttribArray(1);
         f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), 0);
         f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
-        glDrawArrays( GL_QUADS, 0,  mPlaneVBO.size() / 5 / sizeof(GLfloat) );
+        glDrawArrays( GL_TRIANGLES, 0,  mPlaneVBO.size() / 5 / sizeof(GLfloat) );
 
         mTexture->release();
 
@@ -411,11 +408,9 @@ void cGLWidget::paintGL()
     }
     mPointVBO.release();
 
-
     if(!mVBOs.size() || mCurrFrame >= mVBOs.size()) {
         return;
     }
-
 
     mProgram->bind();
     mProgram->setUniformValue("qt_modelViewMatrix", transition);
@@ -451,8 +446,6 @@ void cGLWidget::paintGL()
 
     glDrawArrays( GL_LINE_STRIP, 0,  mOutlineVBOs[mCurrFrame].size() / 3 / sizeof(GLfloat) );
     mOutlineVBOs[mCurrFrame].release();
-
-
 
     mPrgOutline->release();
 }
