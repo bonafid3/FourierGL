@@ -3,7 +3,7 @@
 
 #include <QOpenGLWidget>
 
-#include <GL/glu.h>
+//#include <GL/glu.h>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>

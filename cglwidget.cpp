@@ -5,6 +5,8 @@
 #include <qmath.h>
 #include "utils.h"
 
+#include <locale.h>
+
 #include <QString>
 
 cGLWidget::cGLWidget(QWidget *parent) :
@@ -15,6 +17,11 @@ cGLWidget::cGLWidget(QWidget *parent) :
     setMouseTracking(true);
 
     QSurfaceFormat format;
+
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setVersion(4, 0);
+    format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+
     format.setSamples(4);
     setFormat(format);
 }
@@ -144,7 +151,7 @@ void cGLWidget::initShaders()
     if (!mProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.vert"))
     {
         qd << "error compiling vertex shader";
-        close();
+        return;
     }
 
     // Compiling geometry shader

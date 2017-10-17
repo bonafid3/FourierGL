@@ -1,8 +1,9 @@
 #version 400
 
 in vec4 color;
+out vec4 fragColor;
 
 void main()
 {
-    gl_FragColor = color;
+    fragColor = color;
 }
