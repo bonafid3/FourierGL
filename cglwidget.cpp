@@ -10,9 +10,8 @@
 #include <QString>
 
 cGLWidget::cGLWidget(QWidget *parent) :
-    QOpenGLWidget(parent), mSavedX(0), mSavedY(0), mLeftMouseButtonPressed(false),
-    mProgram(new QOpenGLShaderProgram), mPrgOutline(new QOpenGLShaderProgram), mEye(QVector3D(0,0,50)), mView(QVector3D(0,0,0)), mUp(QVector3D(0,1,0)), mPerspectiveProjection(false),
-    mSamplingMode(true)
+    QOpenGLWidget(parent),
+    mProgram(new QOpenGLShaderProgram), mPrgOutline(new QOpenGLShaderProgram), mEye(QVector3D(0,0,50)), mView(QVector3D(0,0,0)), mUp(QVector3D(0,1,0))
 {
     setMouseTracking(true);
 }

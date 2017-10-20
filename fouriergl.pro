@@ -9,8 +9,9 @@ QT       += core gui opengl
 TARGET = fouriergl
 TEMPLATE = app
 
+CONFIG += c++11
+
 win32: LIBS += opengl32.lib
-linux: LIBS += -L /usr/lib/ -lQtOpenGL
 
 SOURCES += main.cpp\
         dialog.cpp \

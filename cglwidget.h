@@ -27,8 +27,6 @@ public:
 
     void setLightPos(const QVector3D lp);
 
-
-
     float scale(float from_min, float from_max, float to_min, float to_max, float val);
     float deg2rad(int deg);
 
@@ -80,10 +78,9 @@ protected:
 
 private:
 
+    bool mPerspectiveProjection = false;
 
-    bool mPerspectiveProjection;
-
-    bool mSamplingMode;
+    bool mSamplingMode = true;
 
     QOpenGLBuffer mPlaneVBO;
 
@@ -93,9 +90,7 @@ private:
 
     QOpenGLVertexArrayObject mVAO;
 
-
-
-    bool mLeftMouseButtonPressed;
+    bool mLeftMouseButtonPressed = false;
     int mLeftMouseButtonPressCoordX;
     int mLeftMouseButtonPressCoordY;
 
@@ -107,15 +102,11 @@ private:
     float mPos2dx;
     float mPos3dy;
 
-    //QVector<QVector<float> > mHeights;
-
     QOpenGLShaderProgram *mProgram;
     QOpenGLShaderProgram *mPrgOutline;
 
-    int mSavedX;
-    int mSavedY;
-
-    //QVector<GLfloat> mVertices;
+    int mSavedX = 0;
+    int mSavedY = 0;
 
     QVector3D ray_nds;
     QVector4D ray_clip;
@@ -144,8 +135,6 @@ signals:
     void glInitialized();
     void mousePressed(QVector3D);
     void mouseMove(QVector3D);
-
-
 
 };
 
